@@ -1,23 +1,19 @@
 import sqlite3
 from pathlib import Path
 
-# cesta k databázi
 DB_PATH = Path("database/cloud_costs.db")
 
 
 def create_database():
+    """
+    Vytvoří SQLite databázi a tabulku cloud_costs.
+    """
 
-    # Vytvoří SQLite databázi a tabulku cloud_costs
-   
-    
-    # vytvoření složky database pokud neexistuje
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
 
-    # připojení k databázi
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    # vytvoření tabulky
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS cloud_costs (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,3 +29,34 @@ def create_database():
     conn.close()
 
     print("Databáze a tabulka připravena.")
+
+
+def insert_cloud_cost(data):
+    """
+    Uloží jeden cloud cost záznam do databáze.
+    """
+
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    INSERT INTO cloud_costs (
+        service,
+        region,
+        cost,
+        timestamp,
+        status
+    )
+    VALUES (?, ?, ?, ?, ?)
+    """, (
+        data["service"],
+        data["region"],
+        data["cost"],
+        data["timestamp"],
+        data["status"]
+    ))
+
+    conn.commit()
+    conn.close()
+
+    print("Záznam uložen do databáze.")
