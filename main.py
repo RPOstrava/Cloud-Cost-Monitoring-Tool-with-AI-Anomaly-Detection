@@ -1,13 +1,17 @@
 from generator import generate_cloud_cost
 from database import create_database, insert_cloud_cost
-from analysis import basic_analysis
-from analysis import basic_analysis, plot_service_costs
+from analysis import (
+    basic_analysis,
+    plot_service_costs,
+    plot_costs_over_time
+)
+from config import NUMBER_OF_RECORDS
 
 
 def main():
     create_database()
 
-    number_of_records = 100
+    number_of_records = NUMBER_OF_RECORDS
 
     for _ in range(number_of_records):
         sample_data = generate_cloud_cost()
@@ -17,6 +21,7 @@ def main():
 
     basic_analysis()    
     plot_service_costs()
+    plot_costs_over_time()
 
 
 if __name__ == "__main__":

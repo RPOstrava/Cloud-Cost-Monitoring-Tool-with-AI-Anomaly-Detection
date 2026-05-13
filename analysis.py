@@ -50,3 +50,30 @@ def plot_service_costs():
     plt.tight_layout()
 
     plt.show()
+
+def plot_costs_over_time():
+    
+    # Zobrazí vývoj cloud nákladů v čase.
+    
+
+    df = load_data()
+
+    # převod timestamp na datetime
+    df["timestamp"] = pd.to_datetime(df["timestamp"])
+
+    # seřazení podle času
+    df = df.sort_values("timestamp")
+
+    plt.figure(figsize=(10, 5))
+
+    plt.plot(df["timestamp"], df["cost"])
+
+    plt.title("Cloud Costs Over Time")
+    plt.xlabel("Timestamp")
+    plt.ylabel("Cost")
+
+    plt.xticks(rotation=45)
+
+    plt.tight_layout()
+
+    plt.show()    
