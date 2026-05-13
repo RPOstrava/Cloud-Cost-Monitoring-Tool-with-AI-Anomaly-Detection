@@ -1,6 +1,7 @@
 from generator import generate_cloud_cost
 from database import create_database, insert_cloud_cost
 from analysis import basic_analysis
+from analysis import basic_analysis, plot_service_costs
 
 
 def main():
@@ -15,6 +16,7 @@ def main():
     print(f"{number_of_records} záznamů bylo uloženo.")
 
     basic_analysis()    
+    plot_service_costs()
 
 
 if __name__ == "__main__":

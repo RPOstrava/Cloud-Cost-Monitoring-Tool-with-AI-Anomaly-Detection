@@ -32,9 +32,9 @@ def create_database():
 
 
 def insert_cloud_cost(data):
-    """
-    Uloží jeden cloud cost záznam do databáze.
-    """
+    
+    # Uloží jeden cloud cost záznam do databáze.
+    
 
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -59,4 +59,4 @@ def insert_cloud_cost(data):
     conn.commit()
     conn.close()
 
-    print("Záznam uložen do databáze.")
+    # print("Záznam uložen do databáze.")

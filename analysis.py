@@ -1,14 +1,11 @@
 import sqlite3
 import pandas as pd
+import matplotlib.pyplot as plt
 
 DB_PATH = "database/cloud_costs.db"
 
 
 def load_data():
-    
-    # Načte data z SQLite do pandas DataFrame.
-    
-
     conn = sqlite3.connect(DB_PATH)
 
     query = "SELECT * FROM cloud_costs"
@@ -21,10 +18,6 @@ def load_data():
 
 
 def basic_analysis():
-    
-    # Provede základní analýzu dat.
-    
-
     df = load_data()
 
     print("\n--- BASIC ANALYSIS ---")
@@ -39,3 +32,21 @@ def basic_analysis():
 
     print("\nNejdražší cloud služba:")
     print(df.loc[df["cost"].idxmax()])
+
+
+def plot_service_costs():
+    df = load_data()
+
+    service_costs = df.groupby("service")["cost"].sum()
+
+    plt.figure(figsize=(8, 5))
+
+    service_costs.plot(kind="bar")
+
+    plt.title("Cloud Costs by Service")
+    plt.xlabel("Service")
+    plt.ylabel("Total Cost")
+
+    plt.tight_layout()
+
+    plt.show()
