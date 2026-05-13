@@ -5,11 +5,13 @@ from database import create_database, insert_cloud_cost
 def main():
     create_database()
 
-    sample_data = generate_cloud_cost()
+    number_of_records = 100
 
-    print(sample_data)
+    for _ in range(number_of_records):
+        sample_data = generate_cloud_cost()
+        insert_cloud_cost(sample_data)
 
-    insert_cloud_cost(sample_data)
+    print(f"{number_of_records} záznamů bylo uloženo.")
 
 
 if __name__ == "__main__":
