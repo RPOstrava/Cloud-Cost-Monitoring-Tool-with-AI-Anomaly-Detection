@@ -3,7 +3,8 @@ from database import create_database, insert_cloud_cost
 from analysis import (
     basic_analysis,
     plot_service_costs,
-    plot_costs_over_time
+    plot_costs_over_time,
+    detect_anomalies
 )
 from config import NUMBER_OF_RECORDS
 
@@ -22,6 +23,7 @@ def main():
     basic_analysis()    
     plot_service_costs()
     plot_costs_over_time()
+    detect_anomalies()
 
 
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 import sqlite3
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.ensemble import IsolationForest
 
 DB_PATH = "database/cloud_costs.db"
 
@@ -77,3 +78,37 @@ def plot_costs_over_time():
     plt.tight_layout()
 
     plt.show()    
+
+def detect_anomalies():
+    """
+    Detekuje podezřelé cloud náklady pomocí AI.
+    """
+
+    df = load_data()
+
+    # model dostane jen cost hodnoty
+    X = df[["cost"]]
+
+    model = IsolationForest(
+        contamination=0.05,
+        random_state=42
+    )
+
+    model.fit(X)
+
+    predictions = model.predict(X)
+
+    # -1 = anomaly
+    df["prediction"] = predictions
+
+    anomalies = df[df["prediction"] == -1]
+
+    print("\n--- AI ANOMALY DETECTION ---")
+    print(f"Nalezeno anomálií: {len(anomalies)}")
+
+    print("\nTop 10 podezřelých nákladů:")
+    print(
+        anomalies[
+            ["service", "region", "cost", "timestamp"]
+        ].head(10)
+    )    
