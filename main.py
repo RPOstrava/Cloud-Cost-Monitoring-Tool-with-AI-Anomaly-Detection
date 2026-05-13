@@ -1,5 +1,6 @@
 from generator import generate_cloud_cost
 from database import create_database, insert_cloud_cost
+from analysis import basic_analysis
 
 
 def main():
@@ -13,6 +14,9 @@ def main():
 
     print(f"{number_of_records} záznamů bylo uloženo.")
 
+    basic_analysis()    
+
 
 if __name__ == "__main__":
     main()
+
