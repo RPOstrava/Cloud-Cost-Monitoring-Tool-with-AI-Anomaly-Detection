@@ -21,9 +21,10 @@ def main():
     print(f"{number_of_records} záznamů bylo uloženo.")
 
     basic_analysis()    
+    detect_anomalies()
     plot_service_costs()
     plot_costs_over_time()
-    detect_anomalies()
+    
 
 
 if __name__ == "__main__":

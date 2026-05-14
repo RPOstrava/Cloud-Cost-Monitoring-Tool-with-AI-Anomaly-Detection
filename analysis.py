@@ -2,6 +2,7 @@ import sqlite3
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.ensemble import IsolationForest
+from database import update_anomaly_status
 
 DB_PATH = "database/cloud_costs.db"
 
@@ -102,6 +103,9 @@ def detect_anomalies():
     df["prediction"] = predictions
 
     anomalies = df[df["prediction"] == -1]
+
+    for record_id in anomalies["id"]:
+        update_anomaly_status(record_id)
 
     print("\n--- AI ANOMALY DETECTION ---")
     print(f"Nalezeno anomálií: {len(anomalies)}")

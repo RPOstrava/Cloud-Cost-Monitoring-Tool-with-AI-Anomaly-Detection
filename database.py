@@ -60,3 +60,20 @@ def insert_cloud_cost(data):
     conn.close()
 
     # print("Záznam uložen do databáze.")
+
+def update_anomaly_status(record_id):
+    """
+    Označí záznam jako anomálii.
+    """
+
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    UPDATE cloud_costs
+    SET status = 'anomaly'
+    WHERE id = ?
+    """, (record_id,))
+
+    conn.commit()
+    conn.close()    
