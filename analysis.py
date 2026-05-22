@@ -3,6 +3,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.ensemble import IsolationForest
 from database import update_anomaly_status
+from config import (
+    AI_CONTAMINATION,
+    AI_RANDOM_STATE
+)
 
 DB_PATH = "database/cloud_costs.db"
 
@@ -91,8 +95,8 @@ def detect_anomalies():
     X = df[["cost"]]
 
     model = IsolationForest(
-        contamination=0.05,
-        random_state=42
+    contamination=AI_CONTAMINATION,
+    random_state=AI_RANDOM_STATE
     )
 
     model.fit(X)
@@ -104,17 +108,25 @@ def detect_anomalies():
 
     anomalies = df[df["prediction"] == -1]
 
+    normal_count = len(df[df["prediction"] == 1])
+
+    anomaly_count = len(anomalies)
+
+    anomaly_rate = (
+        anomaly_count / len(df)
+    ) * 100
+
     for record_id in anomalies["id"]:
         update_anomaly_status(record_id)
 
     print("\n--- AI ANOMALY DETECTION ---")
-    print(f"Nalezeno anomálií: {len(anomalies)}")
+    print(f"Normální záznamy: {normal_count}")
 
-    print("\nTop 10 podezřelých nákladů:")
+    print(f"Anomálie: {anomaly_count}")
+
     print(
-        anomalies[
-            ["service", "region", "cost", "timestamp"]
-        ].head(10)
+        f"Anomaly rate: "
+        f"{anomaly_rate:.2f}%"
     )    
 
 def plot_anomalies():

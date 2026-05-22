@@ -11,3 +11,7 @@ NORMAL_COST_MAX = 50
 # podezřelé (anomaly) rozpětí
 ANOMALY_COST_MIN = 300
 ANOMALY_COST_MAX = 1000
+
+# AI anomaly detection
+AI_CONTAMINATION = 0.05
+AI_RANDOM_STATE = 42
