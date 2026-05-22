@@ -15,3 +15,6 @@ ANOMALY_COST_MAX = 1000
 # AI anomaly detection
 AI_CONTAMINATION = 0.05
 AI_RANDOM_STATE = 42
+
+# data source
+USE_CSV_IMPORT = True

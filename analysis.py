@@ -129,6 +129,14 @@ def detect_anomalies():
         f"{anomaly_rate:.2f}%"
     )    
 
+    print("\nPoslední detekované anomálie:")
+
+    print(
+        anomalies[
+            ["service", "region", "cost", "timestamp"]
+        ].tail(20)
+    )
+
 def plot_anomalies():
     
        # Zobrazí cloud costs v čase

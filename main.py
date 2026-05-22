@@ -1,6 +1,10 @@
 from generator import generate_cloud_cost
 from database import create_database, insert_cloud_cost
-from config import NUMBER_OF_RECORDS
+from config import (
+    NUMBER_OF_RECORDS,
+    USE_CSV_IMPORT
+)
+from csv_import import import_csv_data
 
 from analysis import (
     basic_analysis,
@@ -13,14 +17,22 @@ from analysis import (
 
 def generate_data():
     """
-    Vygeneruje cloud cost data.
+    Vygeneruje cloud cost data
+    nebo importuje CSV.
     """
 
-    for _ in range(NUMBER_OF_RECORDS):
-        sample_data = generate_cloud_cost()
-        insert_cloud_cost(sample_data)
+    if USE_CSV_IMPORT:
+        import_csv_data()
 
-    print(f"{NUMBER_OF_RECORDS} záznamů bylo uloženo.")
+    else:
+        for _ in range(NUMBER_OF_RECORDS):
+            sample_data = generate_cloud_cost()
+            insert_cloud_cost(sample_data)
+
+        print(
+            f"{NUMBER_OF_RECORDS} "
+            f"záznamů bylo uloženo."
+        )
 
 
 def run_analysis():

@@ -1,0 +1,9 @@
+service,region,cost,timestamp,status
+compute,eu-central,25.50,2026-05-20 09:00:00,normal
+storage,us-east,18.20,2026-05-20 12:00:00,normal
+database,eu-central,780.00,2026-05-20 15:00:00,normal
+network,asia-east,14.30,2026-05-20 18:00:00,normal
+ai-service,us-east,910.25,2026-05-20 21:00:00,normal
+compute,eu-central,32.10,2026-05-21 00:00:00,normal
+storage,asia-east,11.80,2026-05-21 03:00:00,normal
+database,us-east,520.00,2026-05-21 06:00:00,normal
