@@ -1,5 +1,6 @@
 import sqlite3
 from pathlib import Path
+from config import RESET_DATABASE
 
 DB_PATH = Path("database/cloud_costs.db")
 
@@ -9,7 +10,15 @@ def create_database():
     Vytvoří SQLite databázi a tabulku cloud_costs.
     """
 
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    DB_PATH.parent.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    if RESET_DATABASE and DB_PATH.exists():
+        DB_PATH.unlink()
+
+        print("Stará databáze smazána.")
 
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()

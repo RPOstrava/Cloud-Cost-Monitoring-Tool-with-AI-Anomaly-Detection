@@ -17,4 +17,10 @@ AI_CONTAMINATION = 0.05
 AI_RANDOM_STATE = 42
 
 # data source
-USE_CSV_IMPORT = True
+USE_CSV_IMPORT = False
+
+# simulated time interval
+GENERATION_INTERVAL_HOURS = 3
+
+# database reset
+RESET_DATABASE = False

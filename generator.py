@@ -1,12 +1,16 @@
 import random
-from datetime import datetime
+from datetime import (
+    datetime,
+    timedelta
+)
 
 from config import (
     ANOMALY_CHANCE,
     NORMAL_COST_MIN,
     NORMAL_COST_MAX,
     ANOMALY_COST_MIN,
-    ANOMALY_COST_MAX
+    ANOMALY_COST_MAX,
+    GENERATION_INTERVAL_HOURS
 )
 
 SERVICES = [
@@ -48,10 +52,19 @@ def generate_cloud_cost():
             2
         )
 
+    simulated_time = datetime.now() + timedelta(
+        hours=random.randint(
+            0,
+            24 * 7
+        )
+    )
+
     return {
         "service": random.choice(SERVICES),
         "region": random.choice(REGIONS),
         "cost": cost,
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "timestamp": simulated_time.strftime(
+            "%Y-%m-%d %H:%M:%S"
+        ),
         "status": "normal"
     }
