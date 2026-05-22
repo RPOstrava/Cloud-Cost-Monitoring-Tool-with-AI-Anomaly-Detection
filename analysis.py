@@ -81,9 +81,9 @@ def plot_costs_over_time():
     plt.show()    
 
 def detect_anomalies():
-    """
-    Detekuje podezřelé cloud náklady pomocí AI.
-    """
+    
+    #Detekuje podezřelé cloud náklady pomocí AI.
+    
 
     df = load_data()
 
@@ -116,3 +116,44 @@ def detect_anomalies():
             ["service", "region", "cost", "timestamp"]
         ].head(10)
     )    
+
+def plot_anomalies():
+    
+       # Zobrazí cloud costs v čase
+       # a zvýrazní AI anomálie.
+    
+
+    df = load_data()
+
+    df["timestamp"] = pd.to_datetime(df["timestamp"])
+
+    normal = df[df["status"] == "normal"]
+    anomalies = df[df["status"] == "anomaly"]
+
+    plt.figure(figsize=(10, 5))
+
+    # normální hodnoty
+    plt.plot(
+        normal["timestamp"],
+        normal["cost"],
+        label="Normal Costs"
+    )
+
+    # anomálie
+    plt.scatter(
+        anomalies["timestamp"],
+        anomalies["cost"],
+        label="Anomalies"
+    )
+
+    plt.title("AI Anomaly Detection")
+    plt.xlabel("Timestamp")
+    plt.ylabel("Cost")
+
+    plt.legend()
+
+    plt.xticks(rotation=45)
+
+    plt.tight_layout()
+
+    plt.show()

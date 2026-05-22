@@ -4,7 +4,8 @@ from analysis import (
     basic_analysis,
     plot_service_costs,
     plot_costs_over_time,
-    detect_anomalies
+    detect_anomalies,
+    plot_anomalies
 )
 from config import NUMBER_OF_RECORDS
 
@@ -24,6 +25,7 @@ def main():
     detect_anomalies()
     plot_service_costs()
     plot_costs_over_time()
+    plot_anomalies()
     
 
 
