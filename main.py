@@ -3,7 +3,8 @@ from database import create_database, insert_cloud_cost
 from config import (
     NUMBER_OF_RECORDS,
     USE_CSV_IMPORT,
-    MONITORING_DELAY_SECONDS
+    MONITORING_DELAY_SECONDS,
+    APP_MODE
 )
 from csv_import import import_csv_data
 
@@ -68,10 +69,15 @@ def run_analysis():
 def main():
     create_database()
 
+    print(
+        f"Running in "
+        f"{APP_MODE.upper()} "
+        f"mode"
+    )
+
     generate_data()
 
     run_analysis()
-
 
 if __name__ == "__main__":
     main()

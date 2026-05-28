@@ -25,5 +25,14 @@ GENERATION_INTERVAL_HOURS = 3
 # database reset
 RESET_DATABASE = False
 
-# monitoring simulation
-MONITORING_DELAY_SECONDS = 1
+# application mode
+APP_MODE = "dev"
+
+if APP_MODE == "dev":
+    MONITORING_DELAY_SECONDS = 0.1
+else:
+    MONITORING_DELAY_SECONDS = 1
+
+# application mode, da se prepnout na "demo" 
+APP_MODE = "dev"
+
