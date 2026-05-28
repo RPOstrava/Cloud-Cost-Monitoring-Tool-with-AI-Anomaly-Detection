@@ -52,10 +52,21 @@ def generate_cloud_cost():
             2
         )
 
-    simulated_time = datetime.now() + timedelta(
-        hours=random.randint(
-            0,
-            24 * 7
+    base_time = datetime.now().replace(
+        minute=0,
+        second=0,
+        microsecond=0
+    )
+
+    interval_steps = random.randint(
+        0,
+        56
+    )
+
+    simulated_time = base_time + timedelta(
+        hours=(
+            interval_steps *
+            GENERATION_INTERVAL_HOURS
         )
     )
 
