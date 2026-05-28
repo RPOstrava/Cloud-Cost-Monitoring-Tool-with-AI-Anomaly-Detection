@@ -24,3 +24,6 @@ GENERATION_INTERVAL_HOURS = 3
 
 # database reset
 RESET_DATABASE = False
+
+# monitoring simulation
+MONITORING_DELAY_SECONDS = 1
