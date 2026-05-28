@@ -30,7 +30,8 @@ This project is intentionally built step by step to better understand how to des
 - Simulated monitoring intervals (every 3 hours)
 - Multiple cloud services and regions
 - Random anomaly simulation
-- Simulated timestamps for monitoring scenarios
+- Simulated monitoring intervals (every 3 hours)
+- DEV / DEMO monitoring modes
 
 ### CSV Import
 - Import cloud cost data from CSV files
@@ -138,12 +139,12 @@ The project can be configured through `config.py`.
 
 Available settings:
 
-- simulated data generation
+- number of generated records
 - CSV import mode
 - AI anomaly sensitivity
 - simulated monitoring interval
+- DEV / DEMO monitoring mode
 - database reset for testing
-- number of generated records
 
 ---
 
@@ -175,6 +176,7 @@ The project will gradually evolve and may include:
 - Docker containerization
 - Improved project architecture
 - Cloud deployment experiments
+- Live monitoring dashboard
 
 ---
 
