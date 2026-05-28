@@ -27,7 +27,7 @@ This project is intentionally built step by step to better understand how to des
 ## Current Features
 
 ### Data Generation
-- Simulated cloud cost data generation
+- Simulated monitoring intervals (every 3 hours)
 - Multiple cloud services and regions
 - Random anomaly simulation
 - Simulated timestamps for monitoring scenarios
@@ -59,7 +59,7 @@ This project is intentionally built step by step to better understand how to des
 - Detection of unusual cloud spending patterns
 - Statistical anomaly analysis
 - Automatic anomaly labeling
-
+- AI anomaly persistence in SQLite
 ---
 
 ## Technologies Used
@@ -136,11 +136,12 @@ python main.py
 
 The project can be configured through `config.py`.
 
-Example settings:
+Available settings:
 
 - simulated data generation
 - CSV import mode
 - AI anomaly sensitivity
+- simulated monitoring interval
 - database reset for testing
 - number of generated records
 
@@ -170,7 +171,7 @@ The project will gradually evolve and may include:
 - Browser-based charts
 - Better anomaly visualization
 - Cost filtering by service/region
-- Real-time monitoring simulation
+- Live monitoring simulation
 - Docker containerization
 - Improved project architecture
 - Cloud deployment experiments
@@ -181,4 +182,4 @@ The project will gradually evolve and may include:
 
 **Work in progress 🚀**
 
-This repository is actively developed step by step as part of a practical learning journey.
+This repository is actively developed step by step to better understand cloud monitoring, data analysis, and AI-driven anomaly detection.
