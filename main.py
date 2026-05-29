@@ -4,7 +4,8 @@ from config import (
     NUMBER_OF_RECORDS,
     USE_CSV_IMPORT,
     MONITORING_DELAY_SECONDS,
-    APP_MODE
+    APP_MODE,
+    MONITORING_CYCLES
 )
 from csv_import import import_csv_data
 
@@ -13,7 +14,8 @@ from analysis import (
     detect_anomalies,
     plot_service_costs,
     plot_costs_over_time,
-    plot_anomalies
+    plot_anomalies,
+    monitoring_summary
 )
 import time
 
@@ -65,6 +67,8 @@ def run_analysis():
 
     plot_anomalies()
 
+    monitoring_summary()
+
 
 def main():
     create_database()
@@ -75,9 +79,17 @@ def main():
         f"mode"
     )
 
-    generate_data()
+    for cycle in range(MONITORING_CYCLES):
 
-    run_analysis()
+        print(
+            f"\n--- Monitoring Cycle "
+            f"{cycle + 1}/"
+            f"{MONITORING_CYCLES} ---"
+        )
+
+        generate_data()
+
+        run_analysis()
 
 if __name__ == "__main__":
     main()

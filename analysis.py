@@ -177,3 +177,25 @@ def plot_anomalies():
     plt.tight_layout()
 
     plt.show()
+
+def monitoring_summary():
+
+    df = load_data()
+
+    total_records = len(df)
+
+    anomaly_count = len(
+        df[df["status"] == "anomaly"]
+    )
+
+    print("\n--- Monitoring Summary ---")
+
+    print(
+        f"Total records: "
+        f"{total_records}"
+    )
+
+    print(
+        f"Detected anomalies: "
+        f"{anomaly_count}"
+    )    

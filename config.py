@@ -28,6 +28,10 @@ RESET_DATABASE = False
 # application mode
 APP_MODE = "dev"
 
+MONITORING_CYCLES = 5
+
+MONITORING_DELAY_SECONDS = 0.1
+
 if APP_MODE == "dev":
     MONITORING_DELAY_SECONDS = 0.1
 else:
@@ -36,3 +40,5 @@ else:
 # application mode, da se prepnout na "demo" 
 APP_MODE = "dev"
 
+# monitoring cycles
+MONITORING_CYCLES = 5
