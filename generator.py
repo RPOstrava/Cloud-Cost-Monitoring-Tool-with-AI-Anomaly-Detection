@@ -44,6 +44,37 @@ def generate_cloud_cost():
 
     service = random.choice(SERVICES)
 
+    base_time = datetime.now().replace(
+        minute=0,
+        second=0,
+        microsecond=0
+    )
+
+    interval_steps = random.randint(
+        0,
+        56
+    )
+
+    simulated_time = base_time + timedelta(
+        hours=(
+            interval_steps *
+            GENERATION_INTERVAL_HOURS
+        )
+    )
+    hour = simulated_time.hour
+
+    if 0 <= hour < 6:
+
+        load_multiplier = 0.7
+
+    elif 6 <= hour < 18:
+
+        load_multiplier = 1.0
+
+    else:
+
+        load_multiplier = 1.3
+
     if anomaly:
 
         cost = round(
@@ -63,28 +94,11 @@ def generate_cloud_cost():
         cost = round(
             random.uniform(
                 min_cost,
-                max_cost
-            ),
+                 max_cost
+            ) * load_multiplier,
             2
         )
-
-    base_time = datetime.now().replace(
-        minute=0,
-        second=0,
-        microsecond=0
-    )
-
-    interval_steps = random.randint(
-        0,
-        56
-    )
-
-    simulated_time = base_time + timedelta(
-        hours=(
-            interval_steps *
-            GENERATION_INTERVAL_HOURS
-        )
-    )
+    
 
     return {
         "service": service,
