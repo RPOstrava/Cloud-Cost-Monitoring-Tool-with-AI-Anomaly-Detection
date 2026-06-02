@@ -1,4 +1,7 @@
-from flask import Flask
+from flask import (
+    Flask,
+    render_template
+)
 import sqlite3
 
 app = Flask(__name__)
@@ -44,17 +47,13 @@ def home():
 
     conn.close()
 
-    return f"""
-    <h1>Cloud Cost Monitoring Dashboard</h1>
-
-    <p>Total Records: {total_records}</p>
-
-    <p>Detected Anomalies: {anomalies}</p>
-
-    <p>Average Cost: {average_cost}</p>
-
-    <p>Highest Cost: {highest_cost}</p>
-    """
+    return render_template(
+    "index.html",
+    total_records=total_records,
+    anomalies=anomalies,
+    average_cost=average_cost,
+    highest_cost=highest_cost
+)
 
 
 if __name__ == "__main__":
