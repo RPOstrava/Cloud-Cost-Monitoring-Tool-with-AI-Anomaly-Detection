@@ -27,6 +27,13 @@ REGIONS = [
     "asia-east"
 ]
 
+SERVICE_COST_RANGES = {
+    "network": (5, 25),
+    "storage": (10, 40),
+    "compute": (20, 80),
+    "database": (40, 120),
+    "ai-service": (60, 200)
+}
 
 def generate_cloud_cost():
     """
@@ -35,7 +42,10 @@ def generate_cloud_cost():
 
     anomaly = random.random() < ANOMALY_CHANCE
 
+    service = random.choice(SERVICES)
+
     if anomaly:
+
         cost = round(
             random.uniform(
                 ANOMALY_COST_MIN,
@@ -43,11 +53,17 @@ def generate_cloud_cost():
             ),
             2
         )
+
     else:
+
+        min_cost, max_cost = (
+            SERVICE_COST_RANGES[service]
+        )
+
         cost = round(
             random.uniform(
-                NORMAL_COST_MIN,
-                NORMAL_COST_MAX
+                min_cost,
+                max_cost
             ),
             2
         )
@@ -71,7 +87,7 @@ def generate_cloud_cost():
     )
 
     return {
-        "service": random.choice(SERVICES),
+        "service": service,
         "region": random.choice(REGIONS),
         "cost": cost,
         "timestamp": simulated_time.strftime(
