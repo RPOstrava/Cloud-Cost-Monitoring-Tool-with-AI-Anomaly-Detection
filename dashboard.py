@@ -27,6 +27,21 @@ def home():
 
     anomalies = cursor.fetchone()[0]
 
+    cursor.execute(
+        "SELECT AVG(cost) FROM cloud_costs"
+    )
+
+    average_cost = round(
+        cursor.fetchone()[0],
+        2
+    )
+
+    cursor.execute(
+        "SELECT MAX(cost) FROM cloud_costs"
+    )
+
+    highest_cost = cursor.fetchone()[0]
+
     conn.close()
 
     return f"""
@@ -35,6 +50,10 @@ def home():
     <p>Total Records: {total_records}</p>
 
     <p>Detected Anomalies: {anomalies}</p>
+
+    <p>Average Cost: {average_cost}</p>
+
+    <p>Highest Cost: {highest_cost}</p>
     """
 
 
