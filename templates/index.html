@@ -45,7 +45,6 @@
 
             <tr>
                 <th>Service</th>
-                <th>Region</th>
                 <th>Cost</th>
                 <th>Timestamp</th>
             </tr>
@@ -56,7 +55,6 @@
                 <td>{{ anomaly[0] }}</td>
                 <td>{{ anomaly[1] }}</td>
                 <td>{{ anomaly[2] }}</td>
-                <td>{{ anomaly[3] }}</td>
             </tr>
 
             {% endfor %}
@@ -69,12 +67,19 @@
             src="/service-chart"
             alt="Cloud Costs by Service"
 >
+        <h2>Anomalies Over Time</h2>
+
+        <img
+            src="/anomaly-chart"
+            alt="Anomalies Over Time"
+            style="border:3px solid red;"
+>
 
 
 
 
 
-
+</div>
 
 </body>
 

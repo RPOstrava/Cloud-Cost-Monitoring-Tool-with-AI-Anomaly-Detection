@@ -8,6 +8,10 @@ import io
 
 import pandas as pd
 
+import matplotlib
+
+matplotlib.use("Agg")
+
 import matplotlib.pyplot as plt
 
 from flask import (
@@ -51,6 +55,66 @@ def service_chart():
 
     plt.title(
         "Cloud Costs by Service"
+    )
+
+    plt.tight_layout()
+
+    img = io.BytesIO()
+
+    plt.savefig(
+        img,
+        format="png"
+    )
+
+    plt.close()
+
+    img.seek(0)
+
+    return Response(
+        img.getvalue(),
+        mimetype="image/png"
+    )
+    
+@app.route("/anomaly-chart")
+    
+def anomaly_chart():
+
+    conn = sqlite3.connect(
+        "database/cloud_costs.db"
+    )
+
+    query = """
+        SELECT
+            timestamp,
+            cost
+        FROM cloud_costs
+        WHERE status = 'anomaly'
+        ORDER BY id DESC
+        Limit 50
+    """
+
+    df = pd.read_sql_query(
+        query,
+        conn
+    )
+
+    conn.close()
+
+    plt.figure(
+        figsize=(10, 4)
+    )
+
+    plt.scatter(
+        df["timestamp"],
+        df["cost"]
+    )
+
+    plt.title(
+        "Anomalies Over Time"
+    )
+
+    plt.xticks(
+        rotation=45
     )
 
     plt.tight_layout()
@@ -118,7 +182,6 @@ def home():
     cursor.execute("""
         SELECT
             service,
-            region,
             cost,
             timestamp
         FROM cloud_costs
