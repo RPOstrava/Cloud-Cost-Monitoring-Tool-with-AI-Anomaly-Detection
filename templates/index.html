@@ -1,19 +1,74 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Cloud Cost Monitoring Dashboard</title>
+
+    <title>
+        Cloud Cost Monitoring Dashboard
+    </title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
+
 <body>
 
-    <h1>Cloud Cost Monitoring Dashboard</h1>
+    <div class="dashboard">
 
-    <p>Total Records: {{ total_records }}</p>
+        <h1>
+            Cloud Cost Monitoring Dashboard
+        </h1>
 
-    <p>Detected Anomalies: {{ anomalies }}</p>
+        <div class="metric">
+            Total Records: {{ total_records }}
+        </div>
 
-    <p>Average Cost: {{ average_cost }}</p>
+        <div class="metric">
+            Detected Anomalies: {{ anomalies }}
+        </div>
 
-    <p>Highest Cost: {{ highest_cost }}</p>
+        <div class="metric">
+            Anomaly Rate: {{ anomaly_rate }}%
+        </div>
+
+        <div class="metric">
+            Average Cost: {{ average_cost }}
+        </div>
+
+        <div class="metric">
+            Highest Cost: {{ highest_cost }}
+        </div>
+
+        <h2>Latest Anomalies</h2>
+
+        <table border="1">
+
+            <tr>
+                <th>Service</th>
+                <th>Region</th>
+                <th>Cost</th>
+                <th>Timestamp</th>
+            </tr>
+
+            {% for anomaly in latest_anomalies %}
+
+            <tr class="anomaly-row">
+                <td>{{ anomaly[0] }}</td>
+                <td>{{ anomaly[1] }}</td>
+                <td>{{ anomaly[2] }}</td>
+                <td>{{ anomaly[3] }}</td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+
+
+
+
+
 
 </body>
+
 </html>
