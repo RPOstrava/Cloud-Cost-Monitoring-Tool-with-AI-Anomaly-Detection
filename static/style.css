@@ -53,3 +53,8 @@ h2 {
 .anomaly-row:hover {
     background-color: #ffcccc;
 }
+
+img {
+    width: 100%;
+    margin-top: 20px;
+}

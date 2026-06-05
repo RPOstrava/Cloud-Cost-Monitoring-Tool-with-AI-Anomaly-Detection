@@ -4,7 +4,72 @@ from flask import (
 )
 import sqlite3
 
+import io
+
+import pandas as pd
+
+import matplotlib.pyplot as plt
+
+from flask import (
+    Flask,
+    render_template,
+    Response
+)
+
 app = Flask(__name__)
+
+@app.route("/service-chart")
+def service_chart():
+
+    conn = sqlite3.connect(
+        "database/cloud_costs.db"
+    )
+
+    query = """
+        SELECT
+            service,
+            SUM(cost) as total_cost
+        FROM cloud_costs
+        GROUP BY service
+    """
+
+    df = pd.read_sql_query(
+        query,
+        conn
+    )
+
+    conn.close()
+
+    plt.figure(
+        figsize=(8, 4)
+    )
+
+    plt.bar(
+        df["service"],
+        df["total_cost"]
+    )
+
+    plt.title(
+        "Cloud Costs by Service"
+    )
+
+    plt.tight_layout()
+
+    img = io.BytesIO()
+
+    plt.savefig(
+        img,
+        format="png"
+    )
+
+    plt.close()
+
+    img.seek(0)
+
+    return Response(
+        img.getvalue(),
+        mimetype="image/png"
+    )
 
 
 @app.route("/")
