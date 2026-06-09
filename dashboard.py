@@ -1,26 +1,21 @@
 from flask import (
     Flask,
-    render_template
+    render_template,
+    Response
 )
-import sqlite3
 
+import sqlite3
 import io
 
 import pandas as pd
 
 import matplotlib
-
 matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
 
-from flask import (
-    Flask,
-    render_template,
-    Response
-)
-
 app = Flask(__name__)
+
 
 @app.route("/service-chart")
 def service_chart():
@@ -32,7 +27,7 @@ def service_chart():
     query = """
         SELECT
             service,
-            SUM(cost) as total_cost
+            SUM(cost) AS total_cost
         FROM cloud_costs
         GROUP BY service
     """
@@ -74,9 +69,9 @@ def service_chart():
         img.getvalue(),
         mimetype="image/png"
     )
-    
+
+
 @app.route("/anomaly-chart")
-    
 def anomaly_chart():
 
     conn = sqlite3.connect(
@@ -90,7 +85,7 @@ def anomaly_chart():
         FROM cloud_costs
         WHERE status = 'anomaly'
         ORDER BY id DESC
-        Limit 50
+        LIMIT 50
     """
 
     df = pd.read_sql_query(
@@ -158,7 +153,7 @@ def home():
     """)
 
     anomalies = cursor.fetchone()[0]
-    
+
     anomaly_rate = round(
         (anomalies / total_records) * 100,
         2
@@ -192,16 +187,29 @@ def home():
 
     latest_anomalies = cursor.fetchall()
 
+    cursor.execute("""
+        SELECT
+            service,
+            cost,
+            timestamp
+        FROM cloud_costs
+        ORDER BY cost DESC
+        LIMIT 10
+    """)
+
+    most_expensive_records = cursor.fetchall()
+
     conn.close()
 
     return render_template(
         "index.html",
         total_records=total_records,
         anomalies=anomalies,
-        anomaly_rate=anomaly_rate,        
+        anomaly_rate=anomaly_rate,
         average_cost=average_cost,
         highest_cost=highest_cost,
-        latest_anomalies=latest_anomalies
+        latest_anomalies=latest_anomalies,
+        most_expensive_records=most_expensive_records
     )
 
 

@@ -7,7 +7,10 @@
         Cloud Cost Monitoring Dashboard
     </title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
 
 </head>
 
@@ -61,25 +64,43 @@
 
         </table>
 
+        <h2>Most Expensive Records</h2>
+
+        <table border="1">
+
+            <tr>
+                <th>Service</th>
+                <th>Cost</th>
+                <th>Timestamp</th>
+            </tr>
+
+            {% for record in most_expensive_records %}
+
+            <tr>
+                <td>{{ record[0] }}</td>
+                <td>{{ record[1] }}</td>
+                <td>{{ record[2] }}</td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
         <h2>Cloud Costs by Service</h2>
 
         <img
             src="/service-chart"
             alt="Cloud Costs by Service"
->
+        >
+
         <h2>Anomalies Over Time</h2>
 
         <img
             src="/anomaly-chart"
             alt="Anomalies Over Time"
-            style="border:3px solid red;"
->
+        >
 
-
-
-
-
-</div>
+    </div>
 
 </body>
 
