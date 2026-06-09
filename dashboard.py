@@ -154,15 +154,24 @@ def anomalies_by_service_chart():
     )
 
     conn.close()
+    
+    print(df)
 
     plt.figure(
-        figsize=(8, 4)
+        figsize=(8, 4),
+        facecolor="white"
     )
 
     plt.bar(
         df["service"],
-        df["anomaly_count"]
+        df["anomaly_count"],
+        color="blue"
     )
+
+    plt.gca().set_facecolor("white")
+
+    plt.xlabel("Service")
+    plt.ylabel("Anomalies")
 
     plt.title(
         "Anomalies by Service"
@@ -171,6 +180,8 @@ def anomalies_by_service_chart():
     plt.tight_layout()
 
     img = io.BytesIO()
+    
+    plt.grid(True)
 
     plt.savefig(
         img,
@@ -235,16 +246,33 @@ def home():
 
     highest_cost = cursor.fetchone()[0]
 
-    cursor.execute("""
-        SELECT
-            service,
-            cost,
-            timestamp
-        FROM cloud_costs
-        WHERE status = 'anomaly'
-        ORDER BY id DESC
-        LIMIT 10
-    """)
+    if selected_service == "all":
+
+        cursor.execute("""
+            SELECT
+                service,
+                cost,
+                timestamp
+            FROM cloud_costs
+            WHERE status = 'anomaly'
+            ORDER BY id DESC
+            LIMIT 10
+        """)
+
+    else:
+
+        cursor.execute("""
+            SELECT
+                service,
+                cost,
+                timestamp
+            FROM cloud_costs
+            WHERE status = 'anomaly'
+            AND service = ?
+            ORDER BY id DESC
+            LIMIT 10
+        """, (selected_service,))
+
 
     latest_anomalies = cursor.fetchall()
 
