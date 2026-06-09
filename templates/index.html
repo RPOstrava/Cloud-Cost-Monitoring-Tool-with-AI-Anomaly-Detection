@@ -42,6 +42,11 @@
             Highest Cost: {{ highest_cost }}
         </div>
 
+        <div class="metric">
+            Most Problematic Service:
+            {{ most_problematic_service }}
+        </div>
+
         <h2>Latest Anomalies</h2>
 
         <table border="1">
@@ -118,6 +123,13 @@
         <img
             src="/anomaly-chart"
             alt="Anomalies Over Time"
+        >
+
+        <h2>Anomalies by Service Chart</h2>
+
+        <img
+            src="/anomalies-by-service-chart"
+            alt="Anomalies by Service"
         >
 
     </div>

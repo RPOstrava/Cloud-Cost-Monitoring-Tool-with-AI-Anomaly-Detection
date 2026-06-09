@@ -129,6 +129,61 @@ def anomaly_chart():
         img.getvalue(),
         mimetype="image/png"
     )
+    
+@app.route("/anomalies-by-service-chart")
+def anomalies_by_service_chart():
+
+    conn = sqlite3.connect(
+        "database/cloud_costs.db"
+    )
+
+    query = """
+        SELECT
+            service,
+            COUNT(*) AS anomaly_count
+        FROM cloud_costs
+        WHERE status = 'anomaly'
+        GROUP BY service
+        ORDER BY anomaly_count DESC
+    """
+
+    df = pd.read_sql_query(
+        query,
+        conn
+    )
+
+    conn.close()
+
+    plt.figure(
+        figsize=(8, 4)
+    )
+
+    plt.bar(
+        df["service"],
+        df["anomaly_count"]
+    )
+
+    plt.title(
+        "Anomalies by Service"
+    )
+
+    plt.tight_layout()
+
+    img = io.BytesIO()
+
+    plt.savefig(
+        img,
+        format="png"
+    )
+
+    plt.close()
+
+    img.seek(0)
+
+    return Response(
+        img.getvalue(),
+        mimetype="image/png"
+    )    
 
 
 @app.route("/")
@@ -210,6 +265,10 @@ def home():
     """)
 
     anomalies_by_service = cursor.fetchall()
+    
+    most_problematic_service = (
+    anomalies_by_service[0][0]
+)
 
     conn.close()
 
@@ -223,6 +282,7 @@ def home():
         latest_anomalies=latest_anomalies,
         most_expensive_records=most_expensive_records,
         anomalies_by_service=anomalies_by_service,
+        most_problematic_service=most_problematic_service,
     )
 
 
