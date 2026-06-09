@@ -200,7 +200,7 @@ def anomalies_by_service_chart():
 
 @app.route("/")
 def home():
-    
+
     selected_service = request.args.get(
         "service",
         "all"
@@ -246,6 +246,8 @@ def home():
 
     highest_cost = cursor.fetchone()[0]
 
+    # Latest Anomalies
+
     if selected_service == "all":
 
         cursor.execute("""
@@ -273,36 +275,72 @@ def home():
             LIMIT 10
         """, (selected_service,))
 
-
     latest_anomalies = cursor.fetchall()
 
-    cursor.execute("""
-        SELECT
-            service,
-            cost,
-            timestamp
-        FROM cloud_costs
-        ORDER BY cost DESC
-        LIMIT 10
-    """)
+    # Most Expensive Records
+
+    if selected_service == "all":
+
+        cursor.execute("""
+            SELECT
+                service,
+                cost,
+                timestamp
+            FROM cloud_costs
+            ORDER BY cost DESC
+            LIMIT 10
+        """)
+
+    else:
+
+        cursor.execute("""
+            SELECT
+                service,
+                cost,
+                timestamp
+            FROM cloud_costs
+            WHERE service = ?
+            ORDER BY cost DESC
+            LIMIT 10
+        """, (selected_service,))
 
     most_expensive_records = cursor.fetchall()
-    
-    cursor.execute("""
-    SELECT
-        service,
-        COUNT(*) AS anomaly_count
-    FROM cloud_costs
-    WHERE status = 'anomaly'
-    GROUP BY service
-    ORDER BY anomaly_count DESC
-    """)
+
+    # Anomalies by Service
+
+    if selected_service == "all":
+
+        cursor.execute("""
+            SELECT
+                service,
+                COUNT(*) AS anomaly_count
+            FROM cloud_costs
+            WHERE status = 'anomaly'
+            GROUP BY service
+            ORDER BY anomaly_count DESC
+        """)
+
+    else:
+
+        cursor.execute("""
+            SELECT
+                service,
+                COUNT(*) AS anomaly_count
+            FROM cloud_costs
+            WHERE status = 'anomaly'
+            AND service = ?
+            GROUP BY service
+            ORDER BY anomaly_count DESC
+        """, (selected_service,))
 
     anomalies_by_service = cursor.fetchall()
-    
+
     most_problematic_service = (
-    anomalies_by_service[0][0]
-)
+        anomalies_by_service[0][0]
+        if anomalies_by_service
+        else "N/A"
+    )
+
     cursor.execute("""
         SELECT
             region,
@@ -318,6 +356,7 @@ def home():
     most_problematic_region = (
         anomalies_by_region[0][0]
     )
+
     conn.close()
 
     return render_template(
@@ -332,6 +371,7 @@ def home():
         anomalies_by_service=anomalies_by_service,
         most_problematic_service=most_problematic_service,
         most_problematic_region=most_problematic_region,
+        selected_service=selected_service
     )
 
 

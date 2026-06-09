@@ -41,7 +41,10 @@
                     compute
                 </option>
 
-                <option value="database">
+                <option 
+                    value="database"
+                    {% if selected_service == "database" %}selected{% endif %}
+                >
                     database
                 </option>
 
@@ -64,6 +67,11 @@
             </button>
 
         </form>
+
+        <div class="metric">
+            Current Filter:
+            {{ selected_service }}
+        </div>
 
         <div class="metric">
             Total Records: {{ total_records }}
