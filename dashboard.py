@@ -21,37 +21,70 @@ app = Flask(__name__)
 @app.route("/service-chart")
 def service_chart():
 
+    selected_service = request.args.get(
+        "service",
+        "all"
+    )
+
     conn = sqlite3.connect(
         "database/cloud_costs.db"
     )
 
-    query = """
-        SELECT
-            service,
-            SUM(cost) AS total_cost
-        FROM cloud_costs
-        GROUP BY service
-    """
+    if selected_service == "all":
 
-    df = pd.read_sql_query(
-        query,
-        conn
-    )
+        query = """
+            SELECT
+                service,
+                SUM(cost) AS total_cost
+            FROM cloud_costs
+            GROUP BY service
+        """
+
+        df = pd.read_sql_query(
+            query,
+            conn
+        )
+
+    else:
+
+        query = """
+            SELECT
+                service,
+                SUM(cost) AS total_cost
+            FROM cloud_costs
+            WHERE service = ?
+            GROUP BY service
+        """
+
+        df = pd.read_sql_query(
+            query,
+            conn,
+            params=(selected_service,)
+        )
 
     conn.close()
 
     plt.figure(
-        figsize=(8, 4)
+        figsize=(8, 4),
+        facecolor="white"
     )
 
     plt.bar(
         df["service"],
-        df["total_cost"]
+        df["total_cost"],
+        color="blue"
     )
+
+    plt.gca().set_facecolor("white")
+
+    plt.xlabel("Service")
+    plt.ylabel("Total Cost")
 
     plt.title(
         "Cloud Costs by Service"
     )
+
+    plt.grid(True)
 
     plt.tight_layout()
 
@@ -74,36 +107,76 @@ def service_chart():
 
 @app.route("/anomaly-chart")
 def anomaly_chart():
+    
+    selected_service = request.args.get(
+        "service",
+        "all"
+    )
 
     conn = sqlite3.connect(
         "database/cloud_costs.db"
     )
 
-    query = """
-        SELECT
-            timestamp,
-            cost
-        FROM cloud_costs
-        WHERE status = 'anomaly'
-        ORDER BY id DESC
-        LIMIT 50
-    """
+    if selected_service == "all":
 
-    df = pd.read_sql_query(
-        query,
-        conn
-    )
+        query = """
+            SELECT
+                timestamp,
+                cost
+            FROM cloud_costs
+            WHERE status = 'anomaly'
+            ORDER BY id DESC
+            LIMIT 50
+        """
 
+        df = pd.read_sql_query(
+            query,
+            conn
+        )
+
+    else:
+
+        query = """
+            SELECT
+                timestamp,
+                cost
+            FROM cloud_costs
+            WHERE status = 'anomaly'
+            AND service = ?
+            ORDER BY id DESC
+            LIMIT 50
+        """
+
+        df = pd.read_sql_query(
+            query,
+            conn,
+            params=(selected_service,)
+        )
+    
     conn.close()
-
+    
+    print()
+    print("SERVICE:", selected_service)
+    print(df.head())
+    print("ROWS:", len(df))
+    print()
+    
     plt.figure(
-        figsize=(10, 4)
+        figsize=(10, 4),
+        facecolor="white"
     )
 
     plt.scatter(
         df["timestamp"],
         df["cost"]
     )
+
+    plt.gca().set_facecolor("white")
+
+    plt.xlabel("Timestamp")
+    plt.ylabel("Cost")
+
+    plt.grid(True)
 
     plt.title(
         "Anomalies Over Time"
@@ -134,28 +207,51 @@ def anomaly_chart():
 @app.route("/anomalies-by-service-chart")
 def anomalies_by_service_chart():
 
+    selected_service = request.args.get(
+        "service",
+        "all"
+    )
+
     conn = sqlite3.connect(
         "database/cloud_costs.db"
     )
 
-    query = """
-        SELECT
-            service,
-            COUNT(*) AS anomaly_count
-        FROM cloud_costs
-        WHERE status = 'anomaly'
-        GROUP BY service
-        ORDER BY anomaly_count DESC
-    """
+    if selected_service == "all":
 
-    df = pd.read_sql_query(
-        query,
-        conn
-    )
+        query = """
+            SELECT
+                service,
+                COUNT(*) AS anomaly_count
+            FROM cloud_costs
+            WHERE status = 'anomaly'
+            GROUP BY service
+            ORDER BY anomaly_count DESC
+        """
+
+        df = pd.read_sql_query(
+            query,
+            conn
+        )
+
+    else:
+
+        query = """
+            SELECT
+                service,
+                COUNT(*) AS anomaly_count
+            FROM cloud_costs
+            WHERE status = 'anomaly'
+            AND service = ?
+            GROUP BY service
+        """
+
+        df = pd.read_sql_query(
+            query,
+            conn,
+            params=(selected_service,)
+        )
 
     conn.close()
-    
-    print(df)
 
     plt.figure(
         figsize=(8, 4),
@@ -177,11 +273,11 @@ def anomalies_by_service_chart():
         "Anomalies by Service"
     )
 
+    plt.grid(True)
+
     plt.tight_layout()
 
     img = io.BytesIO()
-    
-    plt.grid(True)
 
     plt.savefig(
         img,
@@ -195,7 +291,7 @@ def anomalies_by_service_chart():
     return Response(
         img.getvalue(),
         mimetype="image/png"
-    )    
+    )
 
 
 @app.route("/")
