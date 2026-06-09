@@ -1,7 +1,8 @@
 from flask import (
     Flask,
     render_template,
-    Response
+    Response,
+    request
 )
 
 import sqlite3
@@ -188,6 +189,11 @@ def anomalies_by_service_chart():
 
 @app.route("/")
 def home():
+    
+    selected_service = request.args.get(
+        "service",
+        "all"
+    )
 
     conn = sqlite3.connect(
         "database/cloud_costs.db"
@@ -269,7 +275,21 @@ def home():
     most_problematic_service = (
     anomalies_by_service[0][0]
 )
+    cursor.execute("""
+        SELECT
+            region,
+            COUNT(*) AS anomaly_count
+        FROM cloud_costs
+        WHERE status = 'anomaly'
+        GROUP BY region
+        ORDER BY anomaly_count DESC
+    """)
 
+    anomalies_by_region = cursor.fetchall()
+
+    most_problematic_region = (
+        anomalies_by_region[0][0]
+    )
     conn.close()
 
     return render_template(
@@ -283,6 +303,7 @@ def home():
         most_expensive_records=most_expensive_records,
         anomalies_by_service=anomalies_by_service,
         most_problematic_service=most_problematic_service,
+        most_problematic_region=most_problematic_region,
     )
 
 

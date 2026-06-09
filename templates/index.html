@@ -22,6 +22,49 @@
             Cloud Cost Monitoring Dashboard
         </h1>
 
+        <form method="GET">
+
+            <label for="service">
+                Filter by Service:
+            </label>
+
+            <select
+                name="service"
+                id="service"
+            >
+
+                <option value="all">
+                    All Services
+                </option>
+
+                <option value="compute">
+                    compute
+                </option>
+
+                <option value="database">
+                    database
+                </option>
+
+                <option value="network">
+                    network
+                </option>
+
+                <option value="storage">
+                    storage
+                </option>
+
+                <option value="ai-service">
+                    ai-service
+                </option>
+
+            </select>
+
+            <button type="submit">
+                Apply Filter
+            </button>
+
+        </form>
+
         <div class="metric">
             Total Records: {{ total_records }}
         </div>
@@ -45,6 +88,11 @@
         <div class="metric">
             Most Problematic Service:
             {{ most_problematic_service }}
+        </div>
+
+        <div class="metric">
+            Most Problematic Region:
+            {{ most_problematic_region }}
         </div>
 
         <h2>Latest Anomalies</h2>
