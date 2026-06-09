@@ -86,6 +86,26 @@
 
         </table>
 
+        <h2>Anomalies by Service</h2>
+
+        <table border="1">
+
+            <tr>
+                <th>Service</th>
+                <th>Anomalies</th>
+            </tr>
+
+            {% for service in anomalies_by_service %}
+
+            <tr>
+                <td>{{ service[0] }}</td>
+                <td>{{ service[1] }}</td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
         <h2>Cloud Costs by Service</h2>
 
         <img

@@ -198,6 +198,18 @@ def home():
     """)
 
     most_expensive_records = cursor.fetchall()
+    
+    cursor.execute("""
+    SELECT
+        service,
+        COUNT(*) AS anomaly_count
+    FROM cloud_costs
+    WHERE status = 'anomaly'
+    GROUP BY service
+    ORDER BY anomaly_count DESC
+    """)
+
+    anomalies_by_service = cursor.fetchall()
 
     conn.close()
 
@@ -209,7 +221,8 @@ def home():
         average_cost=average_cost,
         highest_cost=highest_cost,
         latest_anomalies=latest_anomalies,
-        most_expensive_records=most_expensive_records
+        most_expensive_records=most_expensive_records,
+        anomalies_by_service=anomalies_by_service,
     )
 
 
