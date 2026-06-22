@@ -1,5 +1,9 @@
 # Cloud Cost Monitoring Tool with AI Anomaly Detection
 
+## Dashboard Preview
+
+![Dashboard Preview](screenshots/dashboard-screenshot.png)
+
 A learning project focused on building a cloud cost monitoring system with AI-based anomaly detection.
 
 The goal of this project is to understand how to design, build, debug, and improve a real-world Python application using data analysis, machine learning, data visualization, and software engineering practices.
