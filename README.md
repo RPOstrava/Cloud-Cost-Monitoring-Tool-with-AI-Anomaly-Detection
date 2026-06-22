@@ -2,7 +2,7 @@
 
 A learning project focused on building a cloud cost monitoring system with AI-based anomaly detection.
 
-The goal of this project is to understand how to design, build, debug, and gradually improve a real-world Python application using data analysis, machine learning, and software engineering practices.
+The goal of this project is to understand how to design, build, debug, and improve a real-world Python application using data analysis, machine learning, data visualization, and software engineering practices.
 
 ---
 
@@ -10,80 +10,121 @@ The goal of this project is to understand how to design, build, debug, and gradu
 
 The main purpose of this project is **learning by building**.
 
-Instead of following only tutorials, the goal is to understand how individual technologies work together in a practical project:
+Instead of following tutorials only, the goal is to understand how individual technologies work together in a practical project:
 
-- generating data
-- importing external datasets
-- storing historical data
-- analyzing trends
-- visualizing cloud costs
-- detecting anomalies using AI
-- improving architecture and code quality
+* generating cloud cost data
+* importing external datasets
+* storing historical data
+* analyzing trends
+* visualizing cloud costs
+* detecting anomalies using AI
+* building dashboards
+* improving code quality and project structure
 
-This project is intentionally built step by step to better understand how to design systems that are maintainable, testable, and scalable.
+This project is intentionally developed step by step to better understand how data-driven monitoring systems are designed and maintained.
 
 ---
 
 ## Current Features
 
 ### Data Generation
-- Simulated monitoring intervals (every 3 hours)
-- Multiple cloud services and regions
-- Random anomaly simulation
-- Simulated monitoring intervals (every 3 hours)
-- DEV / DEMO monitoring modes
+
+* Simulated cloud cost monitoring
+* Monitoring intervals every 3 hours
+* Multiple cloud services
+* Multiple cloud regions
+* Random anomaly simulation
+* DEV / DEMO monitoring modes
 
 ### CSV Import
-- Import cloud cost data from CSV files
-- External dataset support
-- AI anomaly detection on imported data
+
+* Import cloud cost data from CSV files
+* External dataset support
+* AI anomaly detection on imported data
 
 ### Database
-- SQLite database storage
-- Historical data persistence
-- AI anomaly status stored in database
-- Optional database reset for testing
+
+* SQLite database storage
+* Historical data persistence
+* AI anomaly status stored in database
+* Optional database reset for testing
 
 ### Data Analysis
-- Cost aggregation by service
-- Average cost calculation
-- Highest cost detection
-- AI anomaly statistics
 
-### Data Visualization
-- Cloud costs by service (bar chart)
-- Cloud cost trends over time
-- AI anomaly visualization
+* Cost aggregation by service
+* Average cost calculation
+* Highest cost detection
+* AI anomaly statistics
+* Service-based anomaly analysis
+* Region-based anomaly analysis
+
+### Dashboard
+
+* Flask-based web dashboard
+* Real-time metrics overview
+* Interactive service filtering
+* Dashboard analytics
+
+### Metrics
+
+* Total Records
+* Detected Anomalies
+* Anomaly Rate
+* Average Cost
+* Highest Cost
+* Most Problematic Service
+* Most Problematic Region
+
+### Tables
+
+* Latest Anomalies
+* Most Expensive Records
+* Anomalies by Service
+
+### Charts
+
+* Cloud Costs by Service
+* Anomalies Over Time
+* Anomalies by Service
 
 ### AI / Machine Learning
-- Anomaly detection using Isolation Forest
-- Detection of unusual cloud spending patterns
-- Statistical anomaly analysis
-- Automatic anomaly labeling
-- AI anomaly persistence in SQLite
+
+* Anomaly detection using Isolation Forest
+* Detection of unusual cloud spending patterns
+* Statistical anomaly analysis
+* Automatic anomaly labeling
+* AI anomaly persistence in SQLite
+
 ---
 
 ## Technologies Used
 
 ### Backend
-- Python
+
+* Python
+* Flask
 
 ### Database
-- SQLite
+
+* SQLite
 
 ### Data Analysis
-- pandas
-- NumPy
+
+* pandas
+* NumPy
 
 ### Data Visualization
-- matplotlib
+
+* matplotlib
 
 ### Machine Learning
-- scikit-learn
+
+* scikit-learn
 
 ### Version Control
-- Git
-- GitHub
+
+* Git
+* GitHub
 
 ---
 
@@ -98,9 +139,16 @@ cloud-cost-monitor/
 ├── data/
 │   └── sample_cloud_costs.csv
 │
+├── static/
+│   └── style.css
+│
+├── templates/
+│   └── index.html
+│
 ├── analysis.py
 ├── config.py
 ├── csv_import.py
+├── dashboard.py
 ├── database.py
 ├── generator.py
 ├── main.py
@@ -112,23 +160,35 @@ cloud-cost-monitor/
 
 ## Installation
 
-### Clone repository
+### Clone Repository
 
 ```bash
 git clone https://github.com/RPOstrava/Cloud-Cost-Monitoring-Tool-with-AI-Anomaly-Detection.git
 cd Cloud-Cost-Monitoring-Tool-with-AI-Anomaly-Detection
 ```
 
-### Install dependencies
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Run project
+### Run Data Generator
 
 ```bash
 python main.py
+```
+
+### Run Dashboard
+
+```bash
+python dashboard.py
+```
+
+Open your browser:
+
+```text
+http://localhost:5000
 ```
 
 ---
@@ -137,51 +197,69 @@ python main.py
 
 The project can be configured through `config.py`.
 
-Available settings:
+Available settings include:
 
-- number of generated records
-- CSV import mode
-- AI anomaly sensitivity
-- simulated monitoring interval
-- DEV / DEMO monitoring mode
-- database reset for testing
+* number of generated records
+* CSV import mode
+* anomaly detection sensitivity
+* monitoring interval
+* DEV / DEMO mode
+* database reset options
 
 ---
 
-## Learning Approach
+## Learning Objectives
 
 This project is intentionally developed incrementally.
 
-The goal is not only to build a working application, but also to understand:
+The goal is not only to build a working application but also to understand:
 
-- debugging
-- refactoring
-- data analysis
-- machine learning basics
-- project structure
-- Git workflow
-- real development process
+* Python development
+* debugging
+* refactoring
+* data analysis
+* machine learning basics
+* dashboard development
+* database design
+* Git workflow
+* real software development processes
 
 ---
 
-## Planned Technologies / Features
+## Possible Future Improvements
 
-The project will gradually evolve and may include:
-
-- Flask dashboard (web UI)
-- Browser-based charts
-- Better anomaly visualization
-- Cost filtering by service/region
-- Live monitoring simulation
-- Docker containerization
-- Improved project architecture
-- Cloud deployment experiments
-- Live monitoring dashboard
+* Region filtering
+* CSV export functionality
+* Additional dashboard metrics
+* Improved UI styling
+* Interactive charts
+* Automated reporting
+* Docker containerization
+* Deployment experiments
 
 ---
 
 ## Project Status
 
-**Work in progress 🚀**
+### Functional Prototype Completed
 
-This repository is actively developed step by step to better understand cloud monitoring, data analysis, and AI-driven anomaly detection.
+Implemented features include:
+
+* data generation
+* CSV import
+* SQLite storage
+* AI anomaly detection
+* Flask dashboard
+* analytics and reporting
+* service filtering
+* anomaly visualization
+
+This project continues as a learning platform for Python, data analysis, monitoring concepts, and AI-based anomaly detection.
+
+---
+
+## Author
+
+Richard Ploskonka
+
+GitHub: https://github.com/RPOstrava
